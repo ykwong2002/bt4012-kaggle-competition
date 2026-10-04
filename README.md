@@ -24,14 +24,16 @@ Competition page: https://www.kaggle.com/competitions/bt-4012-competition-2026
    pip install -r requirements.txt
    ```
 
-   On macOS, LightGBM also needs the OpenMP runtime: `brew install libomp`.
+   On macOS, LightGBM also needs the OpenMP runtime: `brew install libomp`. The notebook pins torch to a
+   single thread because torch, scikit-learn and LightGBM each ship their own OpenMP runtime on macOS and
+   mixing them in one process can deadlock; this does not change any result.
 3. Run the notebook top to bottom, either in Jupyter or headlessly:
 
    ```bash
    jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 e1155727.ipynb
    ```
 
-   The run takes roughly 10 to 20 minutes on a laptop. Seeds are fixed (42) so the
+   The run takes roughly 20 to 30 minutes on a laptop (the drift experiments in section 8 are the slow part). Seeds are fixed (42) so the
    validation numbers and submission files are reproduced exactly on the same machine.
 4. Submission files appear in `submissions/`. To upload one with the Kaggle CLI:
 
@@ -45,6 +47,7 @@ Competition page: https://www.kaggle.com/competitions/bt-4012-competition-2026
 * label-free graph features from the edge list: degrees plus mean and max of neighbour features
 * logistic regression, random forest, LightGBM and a PyTorch MLP, tuned with small grids on validation AUC
 * rank-average blend of the strongest models, retrained on all labelled rows for the final submission
+* adversarial validation to measure train-to-test drift, then feature removal, regularisation and recency variants scored on the public leaderboard
 
 ## AI assistance
 
