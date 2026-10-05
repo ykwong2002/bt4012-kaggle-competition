@@ -2,6 +2,7 @@
 
 Predicting the probability that a Bitcoin transaction is illicit, scored by ROC AUC.
 Competition page: https://www.kaggle.com/competitions/bt-4012-competition-2026
+Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
 
 ## Files
 
