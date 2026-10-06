@@ -13,3 +13,7 @@ __pycache__/
 *.pyc
 .venv/
 .DS_Store
+
+# local tooling, not part of the submission
+.dev/
+.claude/
