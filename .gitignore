@@ -17,3 +17,5 @@ __pycache__/
 # local tooling, not part of the submission
 .dev/
 .claude/
+research_notes/
+reports/
