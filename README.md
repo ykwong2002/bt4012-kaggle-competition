@@ -34,7 +34,8 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
    jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 e1155727.ipynb
    ```
 
-   The run takes roughly 20 to 30 minutes on a laptop (the drift experiments in section 8 are the slow part). Seeds are fixed (42) so the
+   The full run takes roughly 60 to 70 minutes on a laptop; the seed-bagged stacking sections (8.11 and 8.12) are
+   the slow part. Keep the machine awake and on power during the run. Seeds are fixed (42) so the
    validation numbers and submission files are reproduced exactly on the same machine.
 4. Submission files appear in `submissions/`. To upload one with the Kaggle CLI:
 
