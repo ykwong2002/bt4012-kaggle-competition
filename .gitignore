@@ -19,3 +19,4 @@ __pycache__/
 .claude/
 research_notes/
 reports/
+catboost_info/
