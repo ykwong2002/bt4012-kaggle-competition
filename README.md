@@ -14,6 +14,8 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
 | `outputs/` | figures and metric tables written by the notebook (used in the report) |
 | `submissions/` | submission csv files written by the notebook |
 | `report/` | the competition report |
+| `experiments/` | offline screening scripts behind the experiment log (forward-chaining checks, model screens) |
+| `experiment_log.csv` | every experiment: hypothesis, change, offline and public results, verdict, lesson |
 
 ## Reproducing the results
 
@@ -34,8 +36,8 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
    jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 e1155727.ipynb
    ```
 
-   The full run takes roughly 60 to 70 minutes on a laptop; the seed-bagged stacking sections (8.11 and 8.12) are
-   the slow part. Keep the machine awake and on power during the run. Seeds are fixed (42) so the
+   The full run takes about 2.5 hours on a laptop; the seed-bagged stacking sections and the 15-seed
+   networks (8.25, 8.26) are the slow parts. Keep the machine awake and on power during the run. Seeds are fixed (42) so the
    validation numbers and submission files are reproduced exactly on the same machine.
 4. Submission files appear in `submissions/`. To upload one with the Kaggle CLI:
 
@@ -45,14 +47,13 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
 
 ## Approach in brief
 
-* time-based validation (train on steps 1-27, validate on 28-35) to mimic the forward-in-time test set
-* label-free graph features from the edge list: degrees plus mean and max of neighbour features
-* logistic regression, random forest, LightGBM and a PyTorch MLP, tuned with small grids on validation AUC
-* rank-average blend of the strongest models, retrained on all labelled rows for the final submission
-* adversarial validation to measure train-to-test drift, then feature removal, regularisation and recency variants scored on the public leaderboard
+* time-based validation (train on steps 1-27, validate on 28-35), later backed by forward-chaining folds and a long-horizon fold, because the test period (steps 36-49) drifts away from training
+* label-free graph features from the edge list (degrees, mean and max of neighbour features)
+* two-stage stacking: neighbours' out-of-fold LightGBM scores (grouped by time step, so no label leaks) fed to a second LightGBM, plus logistic-regression neighbour scores, 5 seeds
+* a neural network with quantile scaling, periodic numeric embeddings, weight averaging and FGSM adversarial training, 15 seeds
+* final submission: rank blend stack 1 : network 3 (`submissions/blend_lr_mlp5s15_1to3.csv`, public AUC 0.9647); second pick: stack and three earlier networks at equal weight (`submissions/blend_lr_mlp_mlp2_mlp3_1to1to1to1.csv`, 0.9635)
+* 83 experiments logged in `experiment_log.csv`, judged against noise thresholds set in advance
 
 ## AI assistance
 
-Claude Code was used as a coding assistant for boilerplate code, debugging and documentation.
-All design decisions (validation scheme, features, models, tuning ranges, final submission choice)
-were made by the student and are documented in the notebook's decision log and in the report.
+Claude (Anthropic), through Claude Code, was used as a coding, research and writing assistant: it wrote and debugged code, ran experiments, summarised published methods and drafted the report and documentation, which the student reviewed. AI agents were also used as an experiment advisor, as reviewers, as research assistants and as independent challengers. Near the end, at the student's instruction, the assistant chose and ran some experiments itself (marked AI-selected in `experiment_log.csv`), and the 1:3 weighting of the first final pick was proposed by the assistant and kept by the student. The full disclosure is in the report.
