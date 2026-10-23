@@ -11,9 +11,9 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
 | `e1155727.ipynb` | full pipeline: EDA, graph features, four models, blending, submission files |
 | `requirements.txt` | pinned package versions used to produce the results |
 | `data/` | the four competition csv files (not committed, see below) |
-| `outputs/` | figures and metric tables written by the notebook (used in the report) |
-| `submissions/` | submission csv files written by the notebook |
-| `report/` | the competition report |
+| `outputs/` | figures and metric tables written by the notebook (generated on run, not committed) |
+| `submissions/` | submission csv files written by the notebook (generated on run, not committed) |
+| `report/` | the competition report (submitted separately as e1155727.pdf) |
 | `experiments/` | offline screening scripts behind the experiment log (forward-chaining checks, model screens) |
 | `experiment_log.csv` | every experiment: hypothesis, change, offline and public results, verdict, lesson |
 

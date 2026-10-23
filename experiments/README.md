@@ -11,3 +11,6 @@ these scripts produced the offline screens recorded in `experiment_log.csv` (row
 
 they were run from a private working folder (`.dev/`), expect the data in `data/`, and some read helper code from the notebook generator, so paths may need adjusting; the submissions themselves are all produced by `e1155727.ipynb`
 code written with ai assistance (claude code), see the report's ai disclosure
+
+extra packages for these scripts only (the notebook does not need them) --> xgboost==3.4.1, catboost==1.2.10, torch_geometric==2.8.1
+`proxy/proxy_correlations_seed12.csv` --> how well each offline check ranked the first seven public uploads (forward-chaining average precision: rank correlation 0.86)

@@ -12,3 +12,4 @@ nbconvert==7.17.1
 ipykernel==7.4.0
 python-docx==1.2.0
 kaggle==2.2.4
+networkx==3.6.1
