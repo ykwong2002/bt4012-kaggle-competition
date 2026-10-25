@@ -30,7 +30,7 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
    On macOS, LightGBM also needs the OpenMP runtime: `brew install libomp`. The notebook pins torch to a
    single thread because torch, scikit-learn and LightGBM each ship their own OpenMP runtime on macOS and
    mixing them in one process can deadlock; this does not change any result.
-3. Run the notebook top to bottom, either in Jupyter or headlessly:
+3. Run the notebook top to bottom with the standard Python 3 kernel, either in Jupyter or headlessly:
 
    ```bash
    jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 e1155727.ipynb
@@ -44,6 +44,17 @@ Repository: https://github.com/ykwong2002/bt4012-kaggle-competition
    ```bash
    kaggle competitions submit -c bt-4012-competition-2026 -f submissions/<file>.csv -m "<message>"
    ```
+
+## Final submissions
+
+These are the two files selected for the final (private) leaderboard. Running the notebook top to bottom (step 3 above) regenerates both in `submissions/`: every model is trained on the labelled steps 1-35 and then predicts the test set in the same run, so no saved model weights are needed.
+
+| file | written in notebook section | model | public / private AUC |
+|---|---|---|---|
+| `submissions/blend_lr_mlp5s15_1to3.csv` | 8.25 | rank blend: stacked LightGBM 1 : 15-seed adversarially trained MLP 3 | 0.9647 / 0.9526 |
+| `submissions/blend_lr_mlp_mlp2_mlp3_1to1to1to1.csv` | 8.20 | rank blend, equal weight: stacked LightGBM, original MLP, quantile-embedding MLP, adversarially trained MLP | 0.9635 / 0.9533 |
+
+Seeds are fixed. On the original machine a full rerun reproduced both files exactly (rank correlation 1.0 with the uploaded files, checked on 23 Oct 2026). On a different machine or library build, tiny floating-point differences in LightGBM and PyTorch can shift individual scores very slightly. The cell in section 8.25 also prints the validation metrics reported in Table 2 of the report.
 
 ## Approach in brief
 
